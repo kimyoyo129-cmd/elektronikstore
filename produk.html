@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartwatch Premium - TokoOnline</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset dan variabel */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header dan Navigasi */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-bar {
+            background-color: var(--secondary);
+            color: white;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .top-bar-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-icons a {
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-bar {
+            display: flex;
+            margin: 0 20px;
+            flex-grow: 1;
+            max-width: 500px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container Produk */
+        .product-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Galeri Produk */
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .thumbnail.active {
+            border-color: var(--primary);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Informasi Produk */
+        .product-info {
+            padding: 10px;
+        }
+
+        .product-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: #f1c40f;
+            margin-right: 10px;
+        }
+
+        .review-count {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            margin-bottom: 20px;
+        }
+
+        .current-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #777;
+            font-size: 1.2rem;
+        }
+
+        .discount-badge {
+            background-color: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .product-description {
+            margin-bottom: 25px;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        /* Opsi Produk */
+        .product-options {
+            margin-bottom: 25px;
+        }
+
+        .option-group {
+            margin-bottom: 15px;
+        }
+
+        .option-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .color-option.active {
+            border-color: var(--primary);
+        }
+
+        .color-black {
+            background-color: #2c3e50;
+        }
+
+        .color-silver {
+            background-color: #bdc3c7;
+        }
+
+        .color-gold {
+            background-color: #f1c40f;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .size-option {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .size-option.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Quantity dan Aksi */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .quantity-label {
+            margin-right: 15px;
+            font-weight: 600;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            background-color: #f5f5f5;
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Informasi Tambahan */
+        .product-meta {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .meta-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            width: 150px;
+        }
+
+        /* Tabs Detail Produk */
+        .product-tabs {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .specs-table td {
+            padding: 12px 15px;
+        }
+
+        .specs-table td:first-child {
+            font-weight: 600;
+            width: 200px;
+        }
+
+        .review {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .review-author {
+            font-weight: 600;
+        }
+
+        .review-date {
+            color: #777;
+        }
+
+        /* Produk Terkait */
+        .related-products {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-info-small {
+            padding: 15px;
+        }
+
+        .product-info-small h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price-small {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .current-price-small {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        .original-price-small {
+            text-decoration: line-through;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .product-rating-small {
+            color: #f1c40f;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart-small {
+            display: block;
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart-small:hover {
+            background-color: #2980b9;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 20px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        /* Responsif */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .search-bar {
+                margin: 0 10px;
+            }
+
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .tabs-header {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                flex: 1;
+                text-align: center;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .top-bar-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .search-bar {
+                order: 3;
+                margin: 15px 0 0;
+                max-width: 100%;
+            }
+
+            .thumbnail-container {
+                justify-content: center;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div>Gratis ongkir untuk pembelian di atas Rp 500.000</div>
+                <div>Hubungi kami: (021) 123-4567</div>
+            </div>
+        </div>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-shopping-bag"></i> TokoOnline
+            </a>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Cari produk...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="#">Kategori</a></li>
+                <li><a href="#">Produk</a></li>
+                <li><a href="#">Tentang Kami</a></li>
+                <li><a href="#">Kontak</a></li>
+            </ul>
+            
+            <div class="nav-icons">
+                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="#">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+            
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="#">Beranda</a> > <a href="#">Elektronik</a> > <a href="#">Smartwatch</a> > Smartwatch Premium
+    </div>
+
+    <!-- Container Produk -->
+    <div class="product-container">
+        <!-- Galeri Produk -->
+        <div class="product-gallery">
+            <div class="main-image">
+                <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Smartwatch Premium" id="main-image">
+            </div>
+            <div class="thumbnail-container">
+                <div class="thumbnail active" data-image="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Smartwatch Tampak Depan">
+                </div>
+                <div class="thumbnail" data-image="https://images.unsplash.com/photo-1434493652601-8dabae5c8e8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80">
+                    <img src="https://images.unsplash.com/photo-1434493652601-8dabae5c8e8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Smartwatch Tampak Samping">
+                </div>
+                <div class="thumbnail" data-image="https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80">
+                    <img src="https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Smartwatch di Tangan">
+                </div>
+                <div class="thumbnail" data-image="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80">
+                    <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Smartwatch dengan Aplikasi">
+                </div>
+            </div>
+        </div>
+
+        <!-- Informasi Produk -->
+        <div class="product-info">
+            <h1 class="product-title">Smartwatch Premium Series 5</h1>
+            
+            <div class="product-rating">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="review-count">(124 ulasan)</div>
+            </div>
+            
+            <div class="product-price">
+                <span class="current-price">Rp 899.000</span>
+                <span class="original-price">Rp 1.099.000</span>
+                <span class="discount-badge">18% OFF</span>
+            </div>
+            
+            <p class="product-description">
+                Smartwatch Premium Series 5 dengan fitur lengkap untuk mendukung gaya hidup aktif Anda. Dilengkapi dengan monitor detak jantung, pelacak tidur, notifikasi ponsel, dan ketahanan air hingga 50 meter. Baterai tahan hingga 7 hari pemakaian normal.
+            </p>
+            
+            <div class="product-options">
+                <div class="option-group">
+                    <span class="option-label">Warna:</span>
+                    <div class="color-options">
+                        <div class="color-option color-black active" data-color="Hitam"></div>
+                        <div class="color-option color-silver" data-color="Silver"></div>
+                        <div class="color-option color-gold" data-color="Emas"></div>
+                    </div>
+                </div>
+                
+                <div class="option-group">
+                    <span class="option-label">Ukuran:</span>
+                    <div class="size-options">
+                        <div class="size-option active" data-size="42mm">42mm</div>
+                        <div class="size-option" data-size="46mm">46mm</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quantity-selector">
+                <span class="quantity-label">Jumlah:</span>
+                <div class="quantity-controls">
+                    <button class="quantity-btn minus">-</button>
+                    <input type="text" class="quantity-input" value="1" readonly>
+                    <button class="quantity-btn plus">+</button>
+                </div>
+            </div>
+            
+            <div class="product-actions">
+                <button class="btn btn-accent btn-large"><i class="fas fa-shopping-cart"></i> Tambah ke Keranjang</button>
+                <button class="btn btn-outline btn-large"><i class="far fa-heart"></i> Wishlist</button>
+            </div>
+            
+            <div class="product-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Kategori:</span>
+                    <span>Elektronik > Smartwatch</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Stok:</span>
+                    <span style="color: var(--success);">Tersedia (25)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Pengiriman:</span>
+                    <span>Gratis ongkir ke seluruh Indonesia</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Garansi:</span>
+                    <span>1 tahun resmi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Detail Produk -->
+    <div class="product-tabs">
+        <div class="tabs-header">
+            <div class="tab active" data-tab="description">Deskripsi</div>
+            <div class="tab" data-tab="specs">Spesifikasi</div>
+            <div class="tab" data-tab="reviews">Ulasan (124)</div>
+        </div>
+        
+        <div class="tab-content active" id="description">
+            <h3>Deskripsi Produk</h3>
+            <p>Smartwatch Premium Series 5 adalah jam tangan pintar terbaru dengan desain elegan dan fitur canggih. Dibuat dengan material berkualitas tinggi yang ringan dan nyaman digunakan sepanjang hari.</p>
+            
+            <h4>Fitur Utama:</h4>
+            <ul>
+                <li>Layar AMOLED 1.4 inci dengan resolusi 454x454 piksel</li>
+                <li>Monitor detak jantung 24/7 dengan notifikasi abnormal</li>
+                <li>Pelacak kualitas tidur dengan analisis mendalam</li>
+                <li>100+ mode olahraga termasuk lari, berenang, dan bersepeda</li>
+                <li>Notifikasi ponsel untuk panggilan, pesan, dan aplikasi</li>
+                <li>Ketahanan air IP68 hingga 50 meter</li>
+                <li>Baterai hingga 7 hari pemakaian normal</li>
+                <li>Pengisian nirkabel cepat</li>
+            </ul>
+            
+            <h4>Apa yang Anda Dapatkan:</h4>
+            <ul>
+                <li>1x Smartwatch Premium Series 5</li>
+                <li>1x Charging dock magnetik</li>
+                <li>1x Kabel USB-C</li>
+                <li>1x Buku panduan pengguna</li>
+                <li>Kartu garansi resmi 1 tahun</li>
+            </ul>
+        </div>
+        
+        <div class="tab-content" id="specs">
+            <h3>Spesifikasi Teknis</h3>
+            <table class="specs-table">
+                <tr>
+                    <td>Layar</td>
+                    <td>AMOLED 1.4 inci, 454x454 piksel</td>
+                </tr>
+                <tr>
+                    <td>Prosesor</td>
+                    <td>Dual-core 1.2GHz</td>
+                </tr>
+                <tr>
+                    <td>Memori</td>
+                    <td>RAM 1GB, Penyimpanan 8GB</td>
+                </tr>
+                <tr>
+                    <td>Sensor</td>
+                    <td>Detak jantung, Akselerometer, Gyroscope, SpO2</td>
+                </tr>
+                <tr>
+                    <td>Konektivitas</td>
+                    <td>Bluetooth 5.0, Wi-Fi</td>
+                </tr>
+                <tr>
+                    <td>Baterai</td>
+                    <td>450mAh, hingga 7 hari</td>
+                </tr>
+                <tr>
+                    <td>Ketahanan Air</td>
+                    <td>IP68, hingga 50 meter</td>
+                </tr>
+                <tr>
+                    <td>Sistem Operasi</td>
+                    <td>OS Proprietary dengan dukungan iOS & Android</td>
+                </tr>
+                <tr>
+                    <td>Dimensi</td>
+                    <td>42mm: 42x42x11mm, 46mm: 46x46x12mm</td>
+                </tr>
+                <tr>
+                    <td>Berat</td>
+                    <td>42mm: 38g, 46mm: 42g (tanpa strap)</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="tab-content" id="reviews">
+            <h3>Ulasan Pelanggan</h3>
+            
+            <div class="review">
+                <div class="review-header">
+                    <div class="review-author">Ahmad S.</div>
+                    <div class="review-date">15 Oktober 2023</div>
+                </div>
+                <div class="product-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p>Produknya keren banget! Baterai tahan lama, notifikasi dari HP langsung masuk. Desainnya juga elegan cocok untuk dipakai kerja atau olahraga.</p>
+            </div>
+            
+            <div class="review">
+                <div class="review-header">
+                    <div class="review-author">Diana P.</div>
+                    <div class="review-date">10 Oktober 2023</div>
+                </div>
+                <div class="product-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                </div>
+                <p>Fitur pelacak tidur dan detak jantung sangat membantu untuk memantau kesehatan. Hanya saja aplikasi companion-nya kadang lambat loading datanya.</p>
+            </div>
+            
+            <div class="review">
+                <div class="review-header">
+                    <div class="review-author">Rizki M.</div>
+                    <div class="review-date">5 Oktober 2023</div>
+                </div>
+                <div class="product-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                <p>Baterai memang tahan lama seperti di iklan. Sudah pakai 5 hari masih ada 20%. Pengiriman cepat dan packing aman. Recommended!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Produk Terkait -->
+    <div class="related-products">
+        <h2 class="section-title">Produk Terkait</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Headphone Wireless">
+                    <span class="product-badge">Terlaris</span>
+                </div>
+                <div class="product-info-small">
+                    <h3>Headphone Wireless</h3>
+                    <div class="product-price-small">
+                        <span class="current-price-small">Rp 650.000</span>
+                    </div>
+                    <div class="product-rating-small">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <button class="add-to-cart-small">Tambah ke Keranjang</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Kamera DSLR">
+                </div>
+                <div class="product-info-small">
+                    <h3>Kamera DSLR Profesional</h3>
+                    <div class="product-price-small">
+                        <span class="current-price-small">Rp 8.500.000</span>
+                    </div>
+                    <div class="product-rating-small">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <button class="add-to-cart-small">Tambah ke Keranjang</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Sepatu Running">
+                    <span class="product-badge">Baru</span>
+                </div>
+                <div class="product-info-small">
+                    <h3>Sepatu Running Premium</h3>
+                    <div class="product-price-small">
+                        <span class="current-price-small">Rp 750.000</span>
+                    </div>
+                    <div class="product-rating-small">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <button class="add-to-cart-small">Tambah ke Keranjang</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Smart Band">
+                    <span class="product-badge">Diskon 15%</span>
+                </div>
+                <div class="product-info-small">
+                    <h3>Smart Band Fitness</h3>
+                    <div class="product-price-small">
+                        <span class="current-price-small">Rp 350.000</span>
+                        <span class="original-price-small">Rp 410.000</span>
+                    </div>
+                    <div class="product-rating-small">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <button class="add-to-cart-small">Tambah ke Keranjang</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>TokoOnline</h3>
+                <p>Toko online terpercaya dengan berbagai produk berkualitas dan harga terbaik. Belanja mudah, aman, dan nyaman.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Kategori</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Fashion</a></li>
+                    <li><a href="#">Elektronik</a></li>
+                    <li><a href="#">Rumah Tangga</a></li>
+                    <li><a href="#">Olahraga</a></li>
+                    <li><a href="#">Kecantikan</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Bantuan</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Cara Belanja</a></li>
+                    <li><a href="#">Pembayaran</a></li>
+                    <li><a href="#">Pengiriman</a></li>
+                    <li><a href="#">Pengembalian</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Hubungi Kami</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> Jl. Contoh No. 123, Jakarta</li>
+                    <li><i class="fas fa-phone"></i> (021) 123-4567</li>
+                    <li><i class="fas fa-envelope"></i> info@tokoonline.com</li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Dapatkan info promo dan penawaran terbaru langsung ke email Anda.</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Masukkan email Anda">
+                    <button class="btn">Berlangganan</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 TokoOnline. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk interaksi halaman produk
+        document.addEventListener('DOMContentLoaded', function() {
+            // Thumbnail gallery
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainImage = document.getElementById('main-image');
+            
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    const imageSrc = this.getAttribute('data-image');
+                    mainImage.src = imageSrc;
+                    
+                    // Update active thumbnail
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Opsi warna
+            const colorOptions = document.querySelectorAll('.color-option');
+            
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    colorOptions.forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Opsi ukuran
+            const sizeOptions = document.querySelectorAll('.size-option');
+            
+            sizeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    sizeOptions.forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Kontrol kuantitas
+            const minusBtn = document.querySelector('.quantity-btn.minus');
+            const plusBtn = document.querySelector('.quantity-btn.plus');
+            const quantityInput = document.querySelector('.quantity-input');
+            
+            minusBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                if (value > 1) {
+                    quantityInput.value = value - 1;
+                }
+            });
+            
+            plusBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                quantityInput.value = value + 1;
+            });
+            
+            // Tabs
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Tombol tambah ke keranjang
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-small, .btn-accent');
+            const cartCount = document.querySelector('.cart-count');
+            let count = 3;
+            
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    count++;
+                    cartCount.textContent = count;
+                    
+                    // Animasi sederhana
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Ditambahkan!';
+                    this.style.backgroundColor = '#2ecc71';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.backgroundColor = '';
+                    }, 1500);
+                });
+            });
+            
+            // Menu mobile (hanya placeholder)
+            const mobileMenu = document.querySelector('.mobile-menu');
+            mobileMenu.addEventListener('click', function() {
+                alert('Menu navigasi akan ditampilkan di sini');
+            });
+        });
+    </script>
+</body>
+</html>
